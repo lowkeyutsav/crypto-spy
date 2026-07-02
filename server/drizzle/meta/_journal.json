@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1782952681489,
+      "tag": "0000_smiling_sleepwalker",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1782953013986,
+      "tag": "0001_fantastic_micromacro",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1782953232050,
+      "tag": "0002_faithful_nova",
+      "breakpoints": true
+    }
+  ]
+}

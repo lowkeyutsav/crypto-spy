@@ -1,0 +1,1 @@
+ALTER TABLE "price_alerts" ALTER COLUMN "crypto_id" SET DATA TYPE uuid;

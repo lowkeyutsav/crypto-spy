@@ -1,7 +1,7 @@
 import * as p from "drizzle-orm/pg-core";
 
 export const cryptocurrencies = p.pgTable("cryptocurrencies", {
-  id: p.uuid("id").defaultRandom(),
+  id: p.uuid("id").defaultRandom().primaryKey(),
   ticker: p.varchar("ticker", { length: 10 }).notNull().unique(),
   name: p.varchar("name", { length: 50 }).notNull(),
   currentPrice: p.numeric("current_price", { precision: 20, scale: 8 }).$type<
@@ -19,9 +19,9 @@ export const triggerDirectionEnum = p.pgEnum("trigger_directions", [
 ]);
 
 export const priceAlerts = p.pgTable("price_alerts", {
-  id: p.uuid("id").defaultRandom(),
+  id: p.uuid("id").defaultRandom().primaryKey(),
   userId: p.text("user_id").notNull(),
-  cryptoId: p.integer("crypto_id").notNull().references(
+  cryptoId: p.uuid("crypto_id").notNull().references(
     () => cryptocurrencies.id,
     { onDelete: "cascade" },
   ),
