@@ -14,30 +14,28 @@ export const auth = betterAuth({
     enabled: true,
     requireEmailVerification: true,
     revokeSessionsOnPasswordReset: true,
-    emailVerification : {
-      sendOnSignUp : true,
-      sendVerificationEmail : async ({ user , url }) => {
-        void mailSender({
-          email : user.email,
-          subject : "Email verification for your account on crypto spy",
-          text : `Click the link to verify your account: ${url}`
-        })
+    onExistingUserSignUp: async ({ user }, request) => {
+      try {
+        await mailSender({
+          email: user.email,
+          subject: "Sign-up attempt with your email",
+          text:
+            "Someone tried to create an accound using your email address. If this was you , trying to signin instead you can successfully ignore this email",
+        });
+      } catch (error) {
+        console.error("Failed to send sign-up attempt email" , error)
       }
     },
-    onExistingUserSignUp: async ({ user }, request) => {
-      void mailSender({
-        email: user.email,
-        subject: "Sign-up attempt with your email",
-        text:
-          "Someone tried to create an accound using your email address. If this was you , trying to signin instead you can successfully ignore this email",
-      });
-    },
     sendResetPassword: async ({ user, url, token }, request) => {
-      void mailSender({
-        email: user.email,
-        subject: "Reset your password",
-        text: `Click the link to reset your password: ${url}`,
-      });
+      try {
+        await mailSender({
+          email: user.email,
+          subject: "Reset your password",
+          text: `Click the link to reset your password: ${url}`,
+        });
+      } catch (error) {
+        console.error("Failed to send password reset email" , error)
+      }
     },
     onPasswordReset: async ({ user }, request) => {
       console.log(`Password for user ${user.email} has been reset.`);
@@ -45,6 +43,20 @@ export const auth = betterAuth({
     password: {
       hash: hashPassword,
       verifyPassword: verifyPassword,
+    },
+  },
+  emailVerification: {
+    sendOnSignUp: true,
+    sendVerificationEmail: async ({ user, url }) => {
+      try {
+        await mailSender({
+          email: user.email,
+          subject: "Email verification for your account on crypto spy",
+          text: `Click the link to verify your account: ${url}`,
+        });
+      } catch (error) {
+        console.error("Failed to send verification email" , error)
+      }
     },
   },
 });

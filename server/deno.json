@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "dev": "deno run --watch --allow-net --allow-env --allow-read --env src/index.ts",
+    "dev": "deno run --watch --allow-net --allow-env --allow-read --env --unstable-no-legacy-abort src/index.ts",
     "migration:run": "deno run -A npm:drizzle-kit migrate",
     "migration:generate": "deno run -A npm:drizzle-kit generate",
     "db:push": "deno run -A npm:drizzle-kit push"
