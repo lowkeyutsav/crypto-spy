@@ -4,12 +4,15 @@
     "jsr:@std/assert@1": "1.0.19",
     "jsr:@std/internal@^1.0.12": "1.0.14",
     "npm:@types/pg@^8.20.0": "8.20.0",
-    "npm:better-auth@^1.6.22": "1.6.22_drizzle-kit@0.31.10_drizzle-orm@0.45.2__@types+pg@8.20.0__kysely@0.29.2__pg@8.22.0_pg@8.22.0",
+    "npm:bcrypt@6": "6.0.0",
+    "npm:bcryptjs@^3.0.3": "3.0.3",
+    "npm:better-auth@^1.6.23": "1.6.23_drizzle-kit@0.31.10_drizzle-orm@0.45.2__@types+pg@8.20.0__kysely@0.29.2__pg@8.22.0_pg@8.22.0",
     "npm:dotenv@^17.4.2": "17.4.2",
     "npm:drizzle-kit@*": "0.31.10",
     "npm:drizzle-kit@~0.31.10": "0.31.10",
     "npm:drizzle-orm@~0.45.2": "0.45.2_@types+pg@8.20.0_kysely@0.29.2_pg@8.22.0",
     "npm:hono@^4.12.27": "4.12.27",
+    "npm:nodemailer@^9.0.3": "9.0.3",
     "npm:pg@^8.22.0": "8.22.0"
   },
   "jsr": {
@@ -24,8 +27,8 @@
     }
   },
   "npm": {
-    "@better-auth/core@1.6.22_@better-auth+utils@0.4.2_@better-fetch+fetch@1.3.1_better-call@1.3.7__zod@4.4.3_jose@6.2.3_kysely@0.29.2_nanostores@1.4.0": {
-      "integrity": "sha512-aFH/5nzmR501jAJPKjJfiVg4BrkcjVCqq9WS9JnhTruE/2PIWopv1QGMiRIRqxXaPbHczri7cqRdhep3Lg5PMw==",
+    "@better-auth/core@1.6.23_@better-auth+utils@0.4.2_@better-fetch+fetch@1.3.1_better-call@1.3.7__zod@4.4.3_jose@6.2.3_kysely@0.29.2_nanostores@1.4.0": {
+      "integrity": "sha512-beEhOs0uVeOxYOZKUfIEBd/nQV2Bd4/6wyLxZ0OFkn6CMTK2Vi+hXuZLnyPBeB6RdHpebEoJWiHqwHxBIxgPDQ==",
       "dependencies": [
         "@better-auth/utils",
         "@better-fetch/fetch",
@@ -38,8 +41,8 @@
         "zod"
       ]
     },
-    "@better-auth/drizzle-adapter@1.6.22_@better-auth+core@1.6.22__@better-auth+utils@0.4.2__@better-fetch+fetch@1.3.1__better-call@1.3.7___zod@4.4.3__jose@6.2.3__kysely@0.29.2__nanostores@1.4.0_@better-auth+utils@0.4.2_drizzle-orm@0.45.2__@types+pg@8.20.0__kysely@0.29.2__pg@8.22.0_pg@8.22.0": {
-      "integrity": "sha512-uNa9qH53CfxBmuKP8kbLWxY90oIRwUPn5BcHhO+szK05e2yh6EYwSNNivDSqV3YG5HPfjtPHulklInjq1wtm3w==",
+    "@better-auth/drizzle-adapter@1.6.23_@better-auth+core@1.6.23__@better-auth+utils@0.4.2__@better-fetch+fetch@1.3.1__better-call@1.3.7___zod@4.4.3__jose@6.2.3__kysely@0.29.2__nanostores@1.4.0_@better-auth+utils@0.4.2_drizzle-orm@0.45.2__@types+pg@8.20.0__kysely@0.29.2__pg@8.22.0_@better-fetch+fetch@1.3.1_better-call@1.3.7__zod@4.4.3_jose@6.2.3_kysely@0.29.2_nanostores@1.4.0": {
+      "integrity": "sha512-2+/PTVfIP9E7iz6af8TB3lhnowHUj9ljC66kECmHaFEdUqPgzHoWux9epotKwO7XDg2ui4ttWQ8CMeNFLvQeKQ==",
       "dependencies": [
         "@better-auth/core",
         "@better-auth/utils",
@@ -49,8 +52,8 @@
         "drizzle-orm"
       ]
     },
-    "@better-auth/kysely-adapter@1.6.22_@better-auth+core@1.6.22__@better-auth+utils@0.4.2__@better-fetch+fetch@1.3.1__better-call@1.3.7___zod@4.4.3__jose@6.2.3__kysely@0.29.2__nanostores@1.4.0_@better-auth+utils@0.4.2_kysely@0.29.2_@better-fetch+fetch@1.3.1_better-call@1.3.7__zod@4.4.3_jose@6.2.3_nanostores@1.4.0": {
-      "integrity": "sha512-4k/07lPRizlQi+B+uOE5CwTfH3w+Lq8ZDX1nDN1+e+glRVKAIfHoLvC9cfAVcCbio3DDrl0RTbwjLwjEhG0LxA==",
+    "@better-auth/kysely-adapter@1.6.23_@better-auth+core@1.6.23__@better-auth+utils@0.4.2__@better-fetch+fetch@1.3.1__better-call@1.3.7___zod@4.4.3__jose@6.2.3__kysely@0.29.2__nanostores@1.4.0_@better-auth+utils@0.4.2_kysely@0.29.2_@better-fetch+fetch@1.3.1_better-call@1.3.7__zod@4.4.3_jose@6.2.3_nanostores@1.4.0": {
+      "integrity": "sha512-zbNJsMbG09exfkGyvFqBLLqWoMPAUWjxCuUnEK5AsjbYoZeIjj/QGZgdf4CapVWryKxjA9Q6Jlr6fbiPpC3VAg==",
       "dependencies": [
         "@better-auth/core",
         "@better-auth/utils",
@@ -60,29 +63,29 @@
         "kysely"
       ]
     },
-    "@better-auth/memory-adapter@1.6.22_@better-auth+core@1.6.22__@better-auth+utils@0.4.2__@better-fetch+fetch@1.3.1__better-call@1.3.7___zod@4.4.3__jose@6.2.3__kysely@0.29.2__nanostores@1.4.0_@better-auth+utils@0.4.2_@better-fetch+fetch@1.3.1_better-call@1.3.7__zod@4.4.3_jose@6.2.3_kysely@0.29.2_nanostores@1.4.0": {
-      "integrity": "sha512-rbepe/gHhWs0aF4fAu6+l+wNPJxT9XN4U+Hqa1Y/5HhjtT9y5evo3INrSWlkIOymsMaQ0cBPrSL5pm9Z195hcA==",
+    "@better-auth/memory-adapter@1.6.23_@better-auth+core@1.6.23__@better-auth+utils@0.4.2__@better-fetch+fetch@1.3.1__better-call@1.3.7___zod@4.4.3__jose@6.2.3__kysely@0.29.2__nanostores@1.4.0_@better-auth+utils@0.4.2_@better-fetch+fetch@1.3.1_better-call@1.3.7__zod@4.4.3_jose@6.2.3_kysely@0.29.2_nanostores@1.4.0": {
+      "integrity": "sha512-krIiR0pIVkaKlAzm690n5bcMW4NGbqeMg0HQSD9fz/KcQF/eWLqcq9gG/BhHTj2i/y96qH+W5JWPmaSOS5iTgQ==",
       "dependencies": [
         "@better-auth/core",
         "@better-auth/utils"
       ]
     },
-    "@better-auth/mongo-adapter@1.6.22_@better-auth+core@1.6.22__@better-auth+utils@0.4.2__@better-fetch+fetch@1.3.1__better-call@1.3.7___zod@4.4.3__jose@6.2.3__kysely@0.29.2__nanostores@1.4.0_@better-auth+utils@0.4.2_@better-fetch+fetch@1.3.1_better-call@1.3.7__zod@4.4.3_jose@6.2.3_kysely@0.29.2_nanostores@1.4.0": {
-      "integrity": "sha512-OYnfySHlVkIx7y6XNBsCHjKhl6IYGprRkFwifc/TAuPBVjoRKhLKRAXuzMdWTQYFt4FYb6holbhjNUrXxPIWcw==",
+    "@better-auth/mongo-adapter@1.6.23_@better-auth+core@1.6.23__@better-auth+utils@0.4.2__@better-fetch+fetch@1.3.1__better-call@1.3.7___zod@4.4.3__jose@6.2.3__kysely@0.29.2__nanostores@1.4.0_@better-auth+utils@0.4.2_@better-fetch+fetch@1.3.1_better-call@1.3.7__zod@4.4.3_jose@6.2.3_kysely@0.29.2_nanostores@1.4.0": {
+      "integrity": "sha512-7+QdevitGlKBbP6JbiSk5SBnzPsKV/mDrQBGBn8hwByQLeJwqpqbuBPw7ZI8vzUlFfAAnyFiqwP3Eb8mxnp7pA==",
       "dependencies": [
         "@better-auth/core",
         "@better-auth/utils"
       ]
     },
-    "@better-auth/prisma-adapter@1.6.22_@better-auth+core@1.6.22__@better-auth+utils@0.4.2__@better-fetch+fetch@1.3.1__better-call@1.3.7___zod@4.4.3__jose@6.2.3__kysely@0.29.2__nanostores@1.4.0_@better-auth+utils@0.4.2_@better-fetch+fetch@1.3.1_better-call@1.3.7__zod@4.4.3_jose@6.2.3_kysely@0.29.2_nanostores@1.4.0": {
-      "integrity": "sha512-I6lWQwLva732V600u5dLM2kRcQ94pRZOVVfZ87+Ow9RBxMUnV+I+YQ5h2yggdN2tmsmITacZTy1DSZbDxGu0LQ==",
+    "@better-auth/prisma-adapter@1.6.23_@better-auth+core@1.6.23__@better-auth+utils@0.4.2__@better-fetch+fetch@1.3.1__better-call@1.3.7___zod@4.4.3__jose@6.2.3__kysely@0.29.2__nanostores@1.4.0_@better-auth+utils@0.4.2_@better-fetch+fetch@1.3.1_better-call@1.3.7__zod@4.4.3_jose@6.2.3_kysely@0.29.2_nanostores@1.4.0": {
+      "integrity": "sha512-2qSdzidq4tkb1eS5TTqb4Nzg0mdZWm3Qky9SYeXeb8PpVQbC2sxqJhEM5mK7y12uU6I8hc64wO9f7AFVNL+6UQ==",
       "dependencies": [
         "@better-auth/core",
         "@better-auth/utils"
       ]
     },
-    "@better-auth/telemetry@1.6.22_@better-auth+core@1.6.22__@better-auth+utils@0.4.2__@better-fetch+fetch@1.3.1__better-call@1.3.7___zod@4.4.3__jose@6.2.3__kysely@0.29.2__nanostores@1.4.0_@better-auth+utils@0.4.2_@better-fetch+fetch@1.3.1_better-call@1.3.7__zod@4.4.3_jose@6.2.3_kysely@0.29.2_nanostores@1.4.0": {
-      "integrity": "sha512-glq/oEk9qP+zGh9k/WUH5+pwvBCMolNNhaAVBCtYQrkADFee2gP3VoPs1YeO9coNuOmBhc+AYSIHs+fL9DoJnw==",
+    "@better-auth/telemetry@1.6.23_@better-auth+core@1.6.23__@better-auth+utils@0.4.2__@better-fetch+fetch@1.3.1__better-call@1.3.7___zod@4.4.3__jose@6.2.3__kysely@0.29.2__nanostores@1.4.0_@better-auth+utils@0.4.2_@better-fetch+fetch@1.3.1_better-call@1.3.7__zod@4.4.3_jose@6.2.3_kysely@0.29.2_nanostores@1.4.0": {
+      "integrity": "sha512-/R2Kb+z2BpDOOWwVHqOk+c0VNpuwfCv4Hp5Yr9003WIZPax/zyNraGLB9CFE8qF2gZW8Dsz419k4I8CPrGzpDA==",
       "dependencies": [
         "@better-auth/core",
         "@better-auth/utils",
@@ -513,8 +516,20 @@
         "pg-types"
       ]
     },
-    "better-auth@1.6.22_drizzle-kit@0.31.10_drizzle-orm@0.45.2__@types+pg@8.20.0__kysely@0.29.2__pg@8.22.0_pg@8.22.0": {
-      "integrity": "sha512-B5s6+lPsDWp8rGLRnvNyr5h9tftG9zLRjNrlkEJdYRhcuhPhJiw9b8o6ibgxEFpSAdUqoDaP5/FLqfu8QsXIVg==",
+    "bcrypt@6.0.0": {
+      "integrity": "sha512-cU8v/EGSrnH+HnxV2z0J7/blxH8gq7Xh2JFT6Aroax7UohdmiJJlxApMxtKfuI7z68NvvVcmR78k2LbT6efhRg==",
+      "dependencies": [
+        "node-addon-api",
+        "node-gyp-build"
+      ],
+      "scripts": true
+    },
+    "bcryptjs@3.0.3": {
+      "integrity": "sha512-GlF5wPWnSa/X5LKM1o0wz0suXIINz1iHRLvTS+sLyi7XPbe5ycmYI3DlZqVGZZtDgl4DmasFg7gOB3JYbphV5g==",
+      "bin": true
+    },
+    "better-auth@1.6.23_drizzle-kit@0.31.10_drizzle-orm@0.45.2__@types+pg@8.20.0__kysely@0.29.2__pg@8.22.0_pg@8.22.0": {
+      "integrity": "sha512-4vOaRd9UiKGKm9R+ej0jjU1es3MiJIiNc9Qq3VCnYqOZ4/nb5272QqTxWYoDxyUXl5x6A2x2we5KZKQO9teTQQ==",
       "dependencies": [
         "@better-auth/core",
         "@better-auth/drizzle-adapter",
@@ -706,6 +721,16 @@
     "nanostores@1.4.0": {
       "integrity": "sha512-i0tloweeudshAEuddpDxcg9Ik6pkPfVsHIgKyf143JrgG7/MOh0+q7BypdLXZPoOP7fOYt1eTcwGkyiVmhJFkA=="
     },
+    "node-addon-api@8.9.0": {
+      "integrity": "sha512-ekZMeaaIzSQTSpr7X2X3iJM7lTzgnx8ahAG9pJfT/7+14mlEM8ZYQ9cgCDvSSRbReFK0oHli3WrZdCiRsgAT9Q=="
+    },
+    "node-gyp-build@4.8.4": {
+      "integrity": "sha512-LA4ZjwlnUblHVgq0oBF3Jl/6h/Nvs5fzBLwdEF4nuxnFdsfajde4WfxtJr3CaiH+F6ewcIB/q4jQ4UzPyid+CQ==",
+      "bin": true
+    },
+    "nodemailer@9.0.3": {
+      "integrity": "sha512-n+YP+NKwR5zRWa60k3GiQ6Q3B4KXCoAw40dAKeCtYn020iNN74aWK2liXIC3ZEATeGql7we3tE3t8QwhY0eskw=="
+    },
     "pg-cloudflare@1.4.0": {
       "integrity": "sha512-Vo7z/6rrQYxpNRylp4Tlob2elzbh+N/MOQbxFVWCxS7oEx6jF53GTJFxK2WWpKuBRkmiin4Mt+xofFDjx09R0A=="
     },
@@ -814,11 +839,14 @@
     "dependencies": [
       "jsr:@std/assert@1",
       "npm:@types/pg@^8.20.0",
-      "npm:better-auth@^1.6.22",
+      "npm:bcrypt@6",
+      "npm:bcryptjs@^3.0.3",
+      "npm:better-auth@^1.6.23",
       "npm:dotenv@^17.4.2",
       "npm:drizzle-kit@~0.31.10",
       "npm:drizzle-orm@~0.45.2",
       "npm:hono@^4.12.27",
+      "npm:nodemailer@^9.0.3",
       "npm:pg@^8.22.0"
     ]
   }
