@@ -3,13 +3,14 @@ import { mailSender } from "./mailSender.ts";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { hashPassword, verifyPassword } from "./password.ts";
 import db from "../db/index.ts";
-import * as authSchema from "../db/schema.ts"
+import * as authSchema from "../db/schema.ts";
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
     provider: "pg",
-    schema : authSchema
+    schema: authSchema,
   }),
+  baseUrl: Deno.env.get("BETTER_AUTH_URL"),
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: true,
@@ -23,18 +24,19 @@ export const auth = betterAuth({
             "Someone tried to create an accound using your email address. If this was you , trying to signin instead you can successfully ignore this email",
         });
       } catch (error) {
-        console.error("Failed to send sign-up attempt email" , error)
+        console.error("Failed to send sign-up attempt email", error);
       }
     },
     sendResetPassword: async ({ user, url, token }, request) => {
       try {
         await mailSender({
+
           email: user.email,
           subject: "Reset your password",
           text: `Click the link to reset your password: ${url}`,
         });
       } catch (error) {
-        console.error("Failed to send password reset email" , error)
+        console.error("Failed to send password reset email", error);
       }
     },
     onPasswordReset: async ({ user }, request) => {
@@ -55,8 +57,14 @@ export const auth = betterAuth({
           text: `Click the link to verify your account: ${url}`,
         });
       } catch (error) {
-        console.error("Failed to send verification email" , error)
+        console.error("Failed to send verification email", error);
       }
+    },
+  },
+  socialProviders: {
+    google: {
+      clientId: Deno.env.get("GOOGLE_CLIENT_ID") as string,
+      clientSecret: Deno.env.get("GOOGLE_CLIENT_SECRET") as string,
     },
   },
 });
