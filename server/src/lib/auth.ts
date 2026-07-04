@@ -11,11 +11,20 @@ export const auth = betterAuth({
     schema: authSchema,
   }),
   baseUrl: Deno.env.get("BETTER_AUTH_URL"),
+  user: {
+    additionalFields: {
+      role: {
+        type: "string",
+        required: false,
+        defaultValue: "user",
+      },
+    },
+  },
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: true,
     revokeSessionsOnPasswordReset: true,
-    onExistingUserSignUp: async ({ user }, request) => {
+    onExistingUserSignUp: async ({ user }) => {
       try {
         await mailSender({
           email: user.email,
@@ -27,10 +36,9 @@ export const auth = betterAuth({
         console.error("Failed to send sign-up attempt email", error);
       }
     },
-    sendResetPassword: async ({ user, url, token }, request) => {
+    sendResetPassword: async ({ user, url }) => {
       try {
         await mailSender({
-
           email: user.email,
           subject: "Reset your password",
           text: `Click the link to reset your password: ${url}`,
@@ -39,7 +47,7 @@ export const auth = betterAuth({
         console.error("Failed to send password reset email", error);
       }
     },
-    onPasswordReset: async ({ user }, request) => {
+    onPasswordReset: async ({ user }) => {
       console.log(`Password for user ${user.email} has been reset.`);
     },
     password: {

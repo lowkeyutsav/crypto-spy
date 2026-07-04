@@ -1,6 +1,19 @@
 import * as p from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
-import { pgTable, text, timestamp, boolean, index } from "drizzle-orm/pg-core";
+
+// --- ENUMS ---
+
+export const triggerDirectionEnum = p.pgEnum("trigger_directions", [
+  "ABOVE",
+  "BELOW",
+]);
+
+export const roleEnum = p.pgEnum("user_roles", [
+  "USER",
+  "ADMIN",
+]);
+
+// --- TABLES ---
 
 export const cryptocurrencies = p.pgTable("cryptocurrencies", {
   id: p.uuid("id").defaultRandom().primaryKey(),
@@ -15,14 +28,25 @@ export const cryptocurrencies = p.pgTable("cryptocurrencies", {
   }).$onUpdate(() => new Date()),
 });
 
-export const triggerDirectionEnum = p.pgEnum("trigger_directions", [
-  "ABOVE",
-  "BELOW",
-]);
+export const user = p.pgTable("user", {
+  id: p.text("id").primaryKey(),
+  name: p.text("name").notNull(),
+  email: p.text("email").notNull().unique(),
+  emailVerified: p.boolean("email_verified").default(false).notNull(),
+  role: roleEnum("role").default("USER").notNull(), // Swapped to native DB Enum
+  image: p.text("image"),
+  createdAt: p.timestamp("created_at").defaultNow().notNull(),
+  updatedAt: p.timestamp("updated_at")
+    .defaultNow()
+    .$onUpdate(() => new Date())
+    .notNull(),
+});
 
 export const priceAlerts = p.pgTable("price_alerts", {
   id: p.uuid("id").defaultRandom().primaryKey(),
-  userId: p.text("user_id").notNull(),
+  userId: p.text("user_id").notNull().references(() => user.id, {
+    onDelete: "cascade",
+  }), // Added foreign key safety
   cryptoId: p.uuid("crypto_id").notNull().references(
     () => cryptocurrencies.id,
     { onDelete: "cascade" },
@@ -32,95 +56,84 @@ export const priceAlerts = p.pgTable("price_alerts", {
   direction: triggerDirectionEnum(),
   emailNotification: p.boolean("email_notification").default(true),
   pushNotification: p.boolean("push_notification").default(false),
-  is_active: p.boolean("is_active").default(true),
-  is_triggered: p.boolean("is_triggered").default(false),
+  isActive: p.boolean("is_active").default(true), // camelCase alignment
+  isTriggered: p.boolean("is_triggered").default(false), // camelCase alignment
   createdAt: p.timestamp("created_at", {
     mode: "date",
     withTimezone: true,
   }).notNull().$default(() => new Date()),
 }, (table) => [
   p.index("idx_active_alerts").on(
-    table.is_active,
-    table.is_triggered,
+    table.isActive,
+    table.isTriggered,
   ),
 ]);
 
-// better auth tables
-export const user = pgTable("user", {
-  id: text("id").primaryKey(),
-  name: text("name").notNull(),
-  email: text("email").notNull().unique(),
-  emailVerified: boolean("email_verified").default(false).notNull(),
-  image: text("image"),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-  updatedAt: timestamp("updated_at")
-    .defaultNow()
-    .$onUpdate(() => /* @__PURE__ */ new Date())
-    .notNull(),
-});
-
-export const session = pgTable(
+export const session = p.pgTable(
   "session",
   {
-    id: text("id").primaryKey(),
-    expiresAt: timestamp("expires_at").notNull(),
-    token: text("token").notNull().unique(),
-    createdAt: timestamp("created_at").defaultNow().notNull(),
-    updatedAt: timestamp("updated_at")
-      .$onUpdate(() => /* @__PURE__ */ new Date())
+    id: p.text("id").primaryKey(),
+    expiresAt: p.timestamp("expires_at").notNull(),
+    token: p.text("token").notNull().unique(),
+    createdAt: p.timestamp("created_at").defaultNow().notNull(),
+    updatedAt: p.timestamp("updated_at")
+      .$onUpdate(() => new Date())
       .notNull(),
-    ipAddress: text("ip_address"),
-    userAgent: text("user_agent"),
-    userId: text("user_id")
+    ipAddress: p.text("ip_address"),
+    userAgent: p.text("user_agent"),
+    userId: p.text("user_id")
       .notNull()
       .references(() => user.id, { onDelete: "cascade" }),
   },
-  (table) => [index("session_userId_idx").on(table.userId)],
+  (table) => [p.index("session_userId_idx").on(table.userId)],
 );
 
-export const account = pgTable(
+export const account = p.pgTable(
   "account",
   {
-    id: text("id").primaryKey(),
-    accountId: text("account_id").notNull(),
-    providerId: text("provider_id").notNull(),
-    userId: text("user_id")
+    id: p.text("id").primaryKey(),
+    accountId: p.text("account_id").notNull(),
+    providerId: p.text("provider_id").notNull(),
+    userId: p.text("user_id")
       .notNull()
       .references(() => user.id, { onDelete: "cascade" }),
-    accessToken: text("access_token"),
-    refreshToken: text("refresh_token"),
-    idToken: text("id_token"),
-    accessTokenExpiresAt: timestamp("access_token_expires_at"),
-    refreshTokenExpiresAt: timestamp("refresh_token_expires_at"),
-    scope: text("scope"),
-    password: text("password"),
-    createdAt: timestamp("created_at").defaultNow().notNull(),
-    updatedAt: timestamp("updated_at")
-      .$onUpdate(() => /* @__PURE__ */ new Date())
+    accessToken: p.text("access_token"),
+    refreshToken: p.text("refresh_token"),
+    idToken: p.text("id_token"),
+    accessTokenExpiresAt: p.timestamp("access_token_expires_at"),
+    refreshTokenExpiresAt: p.timestamp("refresh_token_expires_at"),
+    scope: p.text("scope"),
+    password: p.text("password"),
+    createdAt: p.timestamp("created_at").defaultNow().notNull(),
+    updatedAt: p.timestamp("updated_at")
+      .$onUpdate(() => new Date())
       .notNull(),
   },
-  (table) => [index("account_userId_idx").on(table.userId)],
+  (table) => [p.index("account_userId_idx").on(table.userId)],
 );
 
-export const verification = pgTable(
+export const verification = p.pgTable(
   "verification",
   {
-    id: text("id").primaryKey(),
-    identifier: text("identifier").notNull(),
-    value: text("value").notNull(),
-    expiresAt: timestamp("expires_at").notNull(),
-    createdAt: timestamp("created_at").defaultNow().notNull(),
-    updatedAt: timestamp("updated_at")
+    id: p.text("id").primaryKey(),
+    identifier: p.text("identifier").notNull(),
+    value: p.text("value").notNull(),
+    expiresAt: p.timestamp("expires_at").notNull(),
+    createdAt: p.timestamp("created_at").defaultNow().notNull(),
+    updatedAt: p.timestamp("updated_at")
       .defaultNow()
-      .$onUpdate(() => /* @__PURE__ */ new Date())
+      .$onUpdate(() => new Date())
       .notNull(),
   },
-  (table) => [index("verification_identifier_idx").on(table.identifier)],
+  (table) => [p.index("verification_identifier_idx").on(table.identifier)],
 );
+
+// --- RELATIONS ---
 
 export const userRelations = relations(user, ({ many }) => ({
   sessions: many(session),
   accounts: many(account),
+  priceAlerts: many(priceAlerts), // Linked user to their alerts
 }));
 
 export const sessionRelations = relations(session, ({ one }) => ({
@@ -134,5 +147,16 @@ export const accountRelations = relations(account, ({ one }) => ({
   user: one(user, {
     fields: [account.userId],
     references: [user.id],
+  }),
+}));
+
+export const priceAlertsRelations = relations(priceAlerts, ({ one }) => ({
+  user: one(user, {
+    fields: [priceAlerts.userId],
+    references: [user.id],
+  }),
+  cryptocurrency: one(cryptocurrencies, {
+    fields: [priceAlerts.cryptoId],
+    references: [cryptocurrencies.id],
   }),
 }));

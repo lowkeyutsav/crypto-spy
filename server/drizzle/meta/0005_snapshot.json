@@ -1,6 +1,6 @@
 {
-  "id": "5c404233-1442-4592-8e07-bcbb764ceedb",
-  "prevId": "c0eb3e8c-4566-4335-ad00-d98bbd6b1887",
+  "id": "ab21c817-1e24-4a7f-bb2c-67ec22316716",
+  "prevId": "5c404233-1442-4592-8e07-bcbb764ceedb",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -273,6 +273,19 @@
         }
       },
       "foreignKeys": {
+        "price_alerts_user_id_user_id_fk": {
+          "name": "price_alerts_user_id_user_id_fk",
+          "tableFrom": "price_alerts",
+          "tableTo": "user",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
         "price_alerts_crypto_id_cryptocurrencies_id_fk": {
           "name": "price_alerts_crypto_id_cryptocurrencies_id_fk",
           "tableFrom": "price_alerts",
@@ -422,6 +435,14 @@
           "notNull": true,
           "default": false
         },
+        "role": {
+          "name": "role",
+          "type": "user_roles",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'USER'"
+        },
         "image": {
           "name": "image",
           "type": "text",
@@ -528,6 +549,14 @@
     }
   },
   "enums": {
+    "public.user_roles": {
+      "name": "user_roles",
+      "schema": "public",
+      "values": [
+        "USER",
+        "ADMIN"
+      ]
+    },
     "public.trigger_directions": {
       "name": "trigger_directions",
       "schema": "public",
