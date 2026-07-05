@@ -1,8 +1,6 @@
 import * as p from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 
-// --- ENUMS ---
-
 export const triggerDirectionEnum = p.pgEnum("trigger_directions", [
   "ABOVE",
   "BELOW",
@@ -13,12 +11,11 @@ export const roleEnum = p.pgEnum("user_roles", [
   "ADMIN",
 ]);
 
-// --- TABLES ---
-
 export const cryptocurrencies = p.pgTable("cryptocurrencies", {
   id: p.uuid("id").defaultRandom().primaryKey(),
   ticker: p.varchar("ticker", { length: 10 }).notNull().unique(),
   name: p.varchar("name", { length: 50 }).notNull(),
+  slug: p.varchar("slug", { length: 256 }).notNull().unique(),
   currentPrice: p.numeric("current_price", { precision: 20, scale: 8 }).$type<
     number
   >(),
@@ -46,7 +43,7 @@ export const priceAlerts = p.pgTable("price_alerts", {
   id: p.uuid("id").defaultRandom().primaryKey(),
   userId: p.text("user_id").notNull().references(() => user.id, {
     onDelete: "cascade",
-  }), // Added foreign key safety
+  }), // foreign key safety
   cryptoId: p.uuid("crypto_id").notNull().references(
     () => cryptocurrencies.id,
     { onDelete: "cascade" },
@@ -56,8 +53,8 @@ export const priceAlerts = p.pgTable("price_alerts", {
   direction: triggerDirectionEnum(),
   emailNotification: p.boolean("email_notification").default(true),
   pushNotification: p.boolean("push_notification").default(false),
-  isActive: p.boolean("is_active").default(true), // camelCase alignment
-  isTriggered: p.boolean("is_triggered").default(false), // camelCase alignment
+  isActive: p.boolean("is_active").default(true),
+  isTriggered: p.boolean("is_triggered").default(false),
   createdAt: p.timestamp("created_at", {
     mode: "date",
     withTimezone: true,
