@@ -1,7 +1,7 @@
 import { auth } from "../lib/auth.ts";
 import { Context, Next } from "hono";
 
-export const authGaurd = async (c: Context, next: Next) => {
+export const authGuard = async (c: Context, next: Next) => {
   try {
     const session = await auth.api.getSession({
       headers: c.req.raw.headers,

@@ -3,14 +3,11 @@ import * as schema from "../db/schema.ts";
 import { and, eq } from "drizzle-orm";
 
 interface handleCreateAlertInterface {
-  id: string;
-  body: {
-    cryptoId: string;
-    targetPrice: number;
-    direction: "ABOVE" | "BELOW";
-    emailNotification?: boolean;
-    pushNotification?: boolean;
-  };
+  cryptoId: string;
+  targetPrice: number;
+  direction: "ABOVE" | "BELOW";
+  emailNotification?: boolean;
+  pushNotification?: boolean;
 }
 
 export const getAlertListings = async (
@@ -53,8 +50,9 @@ export const getOwnAlertListings = async (
   }
 };
 
-export const handleCreateAlert = async (
-  { id, body }: handleCreateAlertInterface,
+export const createAlert = async (
+  id: string,
+  body: handleCreateAlertInterface,
 ) => {
   try {
     const {
@@ -90,15 +88,15 @@ export const handleCreateAlert = async (
   }
 };
 
-export const handleDeleteAlert = async (id: string) => {
+export const deleteAlert = async (id: string) => {
   try {
-    const data = await db.select().from(schema.priceAlerts).where(
-      eq(schema.priceAlerts.id, id),
-    );
+    const data = await db.delete(schema.priceAlerts).where(
+      eq(schema.priceAlerts, id),
+    ).returning();
 
     if (data.length === 0) return false;
 
-    return data[0];
+    return true;
   } catch (error) {
     console.error(
       "Error occured in the the handleDeleteAlert service :",
