@@ -4,12 +4,10 @@ export const mailSender = async ({
   email,
   subject,
   text,
-  html,
 }: {
   email: string;
   subject: string;
   text?: string;
-  html?: string;
 }) => {
   const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",

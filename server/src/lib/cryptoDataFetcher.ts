@@ -14,9 +14,9 @@ interface CryptoAsset {
 }
 
 export const cryptoDataFetcher = async (
-  limit: number,
-  offset: number,
-  currency: string,
+  limit: number = 10,
+  offset: number = 0,
+  currency: string = "USD",
 ) => {
   try {
     const url = Deno.env.get("COINCAP_BASE_URL") as string +
@@ -55,5 +55,6 @@ export const cryptoDataFetcher = async (
       "Error occured on the cryptoDataFetcher utility func :",
       error,
     );
+    throw error;
   }
 };
