@@ -1,14 +1,16 @@
 import nodemailer from "nodemailer";
 
+interface mailSenderInterface {
+  email: string;
+  subject: string;
+  text?: string;
+}
+
 export const mailSender = async ({
   email,
   subject,
   text,
-}: {
-  email: string;
-  subject: string;
-  text?: string;
-}) => {
+}: mailSenderInterface) => {
   const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
     port: 587,
