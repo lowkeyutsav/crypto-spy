@@ -15,6 +15,8 @@ const app = new Hono();
 //   }),
 // ); for later use
 
+//TODO: add redis and rate limiting in these
+
 app.get("/", (c) => {
   return c.text("Hono !");
 });
