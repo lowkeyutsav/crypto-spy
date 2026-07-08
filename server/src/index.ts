@@ -1,15 +1,19 @@
 import { Hono } from "hono";
+// import { cors } from "hono/cors";
 import { auth } from "./lib/auth.ts";
+import { crypto } from "./routers/crypto.router.ts";
+import { alert } from "./routers/alert.router.ts";
+import { runPriceAlertCheck } from "./lib/worker.ts";
 
 const app = new Hono();
 
 // app.use(
-//   "/api/auth/*",
+//   "*",
 //   cors({
 //     origin: ["http://localhost:5173", "http://localhost:3000"],
 //     credentials: true,
 //   }),
-// );
+// ); for later use
 
 app.get("/", (c) => {
   return c.text("Hono !");
@@ -19,45 +23,12 @@ app.on(["GET", "POST"], "/api/auth/*", (c) => {
   return auth.handler(c.req.raw);
 });
 
-// Replace your temporary test route with this Hono-compatible version:
-app.get("/test-login", (c) => {
-  return c.html(`
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <title>Test Better Auth Login</title>
-    </head>
-    <body style="font-family: sans-serif; padding: 20px;">
-        <h3>Better Auth Test (Hono)</h3>
-        <button id="loginBtn" style="padding: 10px 20px; font-size: 16px; cursor: pointer;">
-            Sign in with Google
-        </button>
+app.route("/", crypto);
+app.route("/", alert);
 
-        <script>
-            document.getElementById('loginBtn').addEventListener('click', async () => {
-                try {
-                    const response = await fetch('/api/auth/sign-in/social', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ provider: 'google' })
-                    });
-
-                    const data = await response.json();
-                    if (data.url) {
-                        // Redirect browser to Google login screen
-                        window.location.href = data.url;
-                    } else {
-                        alert("Error: No redirect URL returned from Better Auth");
-                    }
-                } catch (err) {
-                    console.error(err);
-                    alert("Check console for errors");
-                }
-            });
-        </script>
-    </body>
-    </html>
-  `);
+Deno.cron("price-alert-check", "0 * * * *", async () => {
+  console.log("Running price alert check...");
+  await runPriceAlertCheck();
 });
 
 const PORT = Number(Deno.env.get("PORT")) || 3000;

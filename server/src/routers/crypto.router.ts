@@ -3,9 +3,9 @@ import {
   handleGetCryptoItem,
   handleGetCryptoList,
 } from "../controllers/crypto.controller.ts";
-import { authGaurd } from "../middlewares/authGaurd.middleware.ts";
+import { authGuard } from "../middlewares/authGuard.middleware.ts";
 
-const crypto = new Hono().basePath("/api/crypto");
+export const crypto = new Hono().basePath("/api/crypto");
 
-crypto.get("/listings", authGaurd, handleGetCryptoList);
-crypto.get("/item/:id", authGaurd, handleGetCryptoItem);
+crypto.get("/listings", authGuard, handleGetCryptoList);
+crypto.get("/item/:id", authGuard, handleGetCryptoItem);
